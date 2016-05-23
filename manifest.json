@@ -20,10 +20,8 @@
   },
   "content_scripts": [
     {
-      //      "matches": [        "<all_urls>"       ],
       "matches": [
-        "http://*/*",
-        "https://*/*"
+        "*://*/*"
       ],
       "js": [
         "key_event.js"
@@ -32,26 +30,19 @@
     }
   ],
   "commands": {
-    "alt_switch_fast": {
+    "alt_switch_forward": {
       "suggested_key": {
         "default": "Alt+W",
         "mac": "Alt+W"
       },
       "description": "Quick switch - Use to switch quickly among last 2 to 4 tabs. (Suggested: Alt+W)"
     },
-    "alt_switch_slow_backward": {
+    "alt_switch_backward": {
       "suggested_key": {
-        "default": "Alt+S",
-        "mac": "Alt+S"
+        "default": "Alt+Q",
+        "mac": "Alt+Q"
       },
       "description": "Normal switch backward (Suggested: Alt+S) "
-    },
-    "alt_switch_slow_forward": {
-      "suggested_key": {
-        "default": "Alt+Shift+S",
-        "mac": "Alt+Shift+S"
-      },
-      "description": "Normal switch forward (Suggested: Alt+Shift+S)"
     }
   }
 }

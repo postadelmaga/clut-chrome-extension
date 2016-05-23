@@ -2,12 +2,11 @@ var mru = [];
 var switchOngoing = false;
 var intSwitchCount = 0;
 var lastIntSwitchIndex = 0;
-var altPressed = false;
-var slowswitchForward = false;
+var backswitch = false;
 
 var initialized = false;
 
-var loggingOn = false;
+var loggingOn = true;
 
 var CLUTlog = function (str) {
     if (loggingOn) {
@@ -46,7 +45,6 @@ if (currVersion != prevVersion) {
 // check alt key
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
-        CLUTlog('Last Alt Status:' + request.alt);
         if (request.alt == 0) {
             endSwitch();
         }
@@ -54,19 +52,9 @@ chrome.runtime.onMessage.addListener(
 
 chrome.commands.onCommand.addListener(function (command) {
     CLUTlog('Command recd:' + command);
-    var fastswitch = true;
-    slowswitchForward = false;
-    if (command == "alt_switch_fast") {
-        fastswitch = true;
-        altPressed = true;
-    } else if (command == "alt_switch_slow_backward") {
-        fastswitch = false;
-        slowswitchForward = false;
-        altPressed = true;
-    } else if (command == "alt_switch_slow_forward") {
-        fastswitch = false;
-        slowswitchForward = true;
-        altPressed = true;
+    backswitch = false;
+    if (command == "alt_switch_backward") {
+        backswitch = true;
     }
 
     if (!switchOngoing) {
@@ -101,7 +89,7 @@ var doIntSwitch = function () {
         //sometimes tabs have gone missing
         var invalidTab = true;
         var thisWindowId;
-        if (slowswitchForward) {
+        if (backswitch) {
             decrementSwitchCounter();
         } else {
             incrementSwitchCounter();
